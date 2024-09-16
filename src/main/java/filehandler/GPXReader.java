@@ -92,9 +92,7 @@ public class GPXReader {
     public static Activity parse(Path path) {
         try {
             Document doc = read(path);
-            Date date = getDate(doc);
-            ArrayList<Coordinate> coordinates = getCoordinates(doc);
-            return new Activity(date, coordinates);
+            return new Activity(getDate(doc), getCoordinates(doc));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
