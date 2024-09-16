@@ -90,11 +90,7 @@ public class GPXReader {
      * @return
      */
     public static Activity parse(Path path) {
-        try {
-            Document doc = read(path);
-            return new Activity(getDate(doc), getCoordinates(doc));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        Document doc = read(path);
+        return new Activity(getDate(doc), getCoordinates(doc));
     }
 }
