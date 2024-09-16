@@ -73,10 +73,11 @@ public class GPXReader {
     private static ArrayList<Coordinate> getCoordinates(Document doc) {
         ArrayList<Coordinate> coordinates = new ArrayList<>();
         NodeList nodeList = doc.getElementsByTagName("trkpt");
+        double x, y;
         for (int i = 0; i < nodeList.getLength(); ++i) {
             NamedNodeMap attrs = nodeList.item(i).getAttributes();
-            double x = Double.parseDouble(attrs.getNamedItem("lon").getTextContent());
-            double y = Double.parseDouble(attrs.getNamedItem("lat").getTextContent());
+            x = Double.parseDouble(attrs.getNamedItem("lon").getTextContent());
+            y = Double.parseDouble(attrs.getNamedItem("lat").getTextContent());
             coordinates.add(new Coordinate(x, y));
         }
         return coordinates;
