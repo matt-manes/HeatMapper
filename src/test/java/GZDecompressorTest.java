@@ -20,7 +20,7 @@ public class GZDecompressorTest {
         assert !(zipped == null);
         byte[] unzipped = GZDecompressor.read(zipped);
         assert unzipped.length > 0;
-        
+
         // Write to file to that can be checked with FIT SDK.
         Path outpath = Path.of("decompressTest.fit");
         try (FileOutputStream out = new FileOutputStream(outpath.toFile())) {
