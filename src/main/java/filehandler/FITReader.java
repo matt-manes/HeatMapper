@@ -25,12 +25,11 @@ public class FITReader {
      */
     public static FitMessages read(Path path) {
         if (path == null) throw new NullPointerException();
-        String filepath = path.toString();
-        if (!(filepath.endsWith(".fit") || filepath.endsWith(".fit.gz"))) {
+        if (!(FileType.isFITOrFITGZ(path))) {
             throw new IllegalArgumentException("File ext must be `.fit` not " + path);
         }
 
-        if (filepath.endsWith(".fit.gz")) {
+        if (FileType.isFITGZ(path)) {
             return readFromGZip(path);
         }
         return readFromFile(path);

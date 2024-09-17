@@ -10,15 +10,8 @@ import java.util.stream.Stream;
  * Recursively searches a given directory for `.fit`, `.fit.gz`, and `.gpx` files.
  */
 public class Globber {
-    private static final String[] patterns = {".fit", ".fit.gz", ".gpx"};
-
-    private static boolean matches(Path path) {
-        String file = path.toString();
-        for (String pattern : patterns) {
-            if (file.endsWith(pattern)) return true;
-        }
-        return false;
-    }
+    // Acceptable file types
+    private static final String[] exts = {".fit", ".fit.gz", ".gpx"};
 
     /**
      * Recursively searches `dir` and returns a list of files matching extensions `.fit`, `.fit
@@ -29,7 +22,7 @@ public class Globber {
      */
     public static List<Path> glob(Path dir) {
         try (Stream<Path> entries = Files.walk(dir)) {
-            return entries.filter(p -> matches(p)).toList();
+            return entries.filter(path -> FileType.hasExt(path, exts)).toList();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,4 +1,5 @@
 import filehandler.FITReader;
+import filehandler.FileType;
 import filehandler.Globber;
 import models.Activity;
 
@@ -11,8 +12,7 @@ public class FITReaderTest {
         List<Path> paths = Globber.glob(ActivitiesDir.dir);
         ArrayList<Activity> activities = new ArrayList<>();
         for (Path path : paths) {
-            String filepath = path.toString();
-            if (filepath.endsWith(".fit") || filepath.endsWith(".fit.gz")) {
+            if (FileType.isFITOrFITGZ(path)) {
                 activities.add(FITReader.parse(path));
             }
         }

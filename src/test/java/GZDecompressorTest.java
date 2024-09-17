@@ -1,3 +1,4 @@
+import filehandler.FileType;
 import filehandler.GZDecompressor;
 import filehandler.Globber;
 
@@ -12,7 +13,7 @@ public class GZDecompressorTest {
         Path zipped = null;
         // Find one that's a `.gz`
         for (Path path : paths) {
-            if (path.toString().endsWith(".gz")) {
+            if (FileType.isFITGZ(path)) {
                 zipped = path;
                 break;
             }

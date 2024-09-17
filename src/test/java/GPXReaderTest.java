@@ -1,3 +1,4 @@
+import filehandler.FileType;
 import filehandler.GPXReader;
 import filehandler.Globber;
 import models.Activity;
@@ -11,7 +12,7 @@ public class GPXReaderTest {
         List<Path> paths = Globber.glob(ActivitiesDir.dir);
         ArrayList<Activity> activities = new ArrayList<>();
         for (Path path : paths) {
-            if (path.toString().endsWith(".gpx")) {
+            if (FileType.isGPX(path)) {
                 activities.add(GPXReader.parse(path));
             }
         }

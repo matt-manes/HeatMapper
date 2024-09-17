@@ -32,7 +32,7 @@ public class GPXReader {
      */
     public static Document read(Path path) {
         if (path == null) throw new NullPointerException();
-        if (!path.toString().endsWith(".gpx")) {
+        if (!FileType.isGPX(path)) {
             throw new IllegalArgumentException("File ext must be `.gpx` not " + path);
         }
 
