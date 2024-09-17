@@ -1,5 +1,7 @@
 package filehandler;
 
+import settings.Settings;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,9 +12,6 @@ import java.util.stream.Stream;
  * Recursively searches a given directory for `.fit`, `.fit.gz`, and `.gpx` files.
  */
 public class Globber {
-    // Acceptable file types
-    private static final String[] exts = {".fit", ".fit.gz", ".gpx"};
-
     /**
      * Recursively searches `dir` and returns a list of files matching extensions `.fit`, `.fit
      * .gz`, or `.gpx`.
@@ -22,7 +21,7 @@ public class Globber {
      */
     public static List<Path> glob(Path dir) {
         try (Stream<Path> entries = Files.walk(dir)) {
-            return entries.filter(path -> FileType.hasExt(path, exts)).toList();
+            return entries.filter(path -> FileType.hasExt(path, Settings.fileTypes)).toList();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

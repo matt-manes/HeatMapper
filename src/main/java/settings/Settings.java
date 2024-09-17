@@ -2,10 +2,12 @@ package settings;
 
 public class Settings {
     // GPS values will be rounded to this many decimal places.
-    public final int gpsPrecision = 6;
+    public static final int gpsPrecision = 6;
+
+    public static final String[] fileTypes = {".fit", ".fit.gz", ".gpx"};
 
     // Limits to Illinois near chicago and a tiny bit of Indiana
-    public final ActivityBoundaries gpsBoundaries =
+    public static final ActivityBoundaries gpsBoundaries =
             new ActivityBoundaries(42.408318, 41.427542, -87.365932, -88.340524);
 
     /*
