@@ -9,7 +9,8 @@ public class Round {
      * @return
      */
     public static double round(double num, int places) {
-        if (places < 1) throw new IllegalArgumentException("`places` must be greater than 0.");
-        return (double) ((int) (num * (10 ^ places))) / (10 ^ places);
+        if (places < 0) throw new IllegalArgumentException("`places` must be positive.");
+        double scale = Math.pow(10, places);
+        return Math.round(num * scale) / scale;
     }
 }
