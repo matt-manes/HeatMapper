@@ -2,7 +2,7 @@ package settings;
 
 public class Settings {
     // GPS values will be rounded to this many decimal places.
-    public static final int gpsPrecision = 3;
+    public static final int gpsPrecision = 4;
 
     public static final String[] fileTypes = {".fit", ".fit.gz", ".gpx"};
 
