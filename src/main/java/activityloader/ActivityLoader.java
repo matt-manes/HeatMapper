@@ -5,6 +5,7 @@ import filehandler.FileType;
 import filehandler.GPXReader;
 import filehandler.Globber;
 import models.Activity;
+import settings.Settings;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -26,10 +27,11 @@ public class ActivityLoader {
         ArrayList<Activity> activities = new ArrayList<>();
         List<Path> paths = Globber.glob(dir);
         for (Path path : paths) {
-            activities.add(load(path));
+            activities.add(load(path).withRoundedCoordinates(Settings.gpsPrecision));
         }
         // TODO: Add gps coordinate rounding
-        // TODO: Add gps boundary checking and toss those outside bounds
         return activities;
     }
+
+
 }
