@@ -27,11 +27,8 @@ public class ActivityLoader {
         ArrayList<Activity> activities = new ArrayList<>();
         List<Path> paths = Globber.glob(dir);
         for (Path path : paths) {
-            activities.add(load(path).withRoundedCoordinates(Settings.gpsPrecision));
+            activities.add(load(path));
         }
-        // TODO: Add gps coordinate rounding
         return activities;
     }
-
-
 }
