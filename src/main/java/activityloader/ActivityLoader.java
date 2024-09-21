@@ -5,7 +5,6 @@ import filehandler.FileType;
 import filehandler.GPXReader;
 import filehandler.Globber;
 import models.Activity;
-import settings.Settings;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
