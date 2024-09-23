@@ -5,6 +5,7 @@ import utilities.Range;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class HeatMapperTest {
@@ -61,14 +62,15 @@ public class HeatMapperTest {
         HeatMapper mapper = new HeatMapper(activities);
         assert mapper.size() == coordinates.length;
 
+        Iterator<HashMap<Coordinate, Integer>> maperator = mapper.iterator();
         // Check first map
-        HashMap<Coordinate, Integer> map = mapper.getMap(0);
+        HashMap<Coordinate, Integer> map = maperator.next();
         assert map.get(newKey(1, 1)) == 1;
         assert map.get(newKey(2, 2)) == 1;
         assert map.get(newKey(3, 3)) == 1;
 
         // Check second map
-        map = mapper.getMap(1);
+        map = maperator.next();
         assert map.get(newKey(1, 1)) == 2;
         assert map.get(newKey(2, 2)) == 1;
         assert map.get(newKey(3, 3)) == 1;
@@ -76,7 +78,7 @@ public class HeatMapperTest {
         assert map.get(newKey(13, 13)) == 1;
 
         // Check third map
-        map = mapper.getMap(2);
+        map = maperator.next();
         assert map.get(newKey(1, 1)) == 3;
         assert map.get(newKey(2, 2)) == 2;
         assert map.get(newKey(3, 3)) == 1;
@@ -85,7 +87,7 @@ public class HeatMapperTest {
         assert map.get(newKey(33, 33)) == 1;
 
         // Check min and max counts
-        Range range = mapper.getCountRange();
+        Range range = mapper.getHeatRange();
         assert range.a == 1;
         assert range.b == 3;
     }

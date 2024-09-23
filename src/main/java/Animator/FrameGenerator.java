@@ -35,7 +35,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
      * Initialize scalers and color curve from heatmaps.
      */
     private void initParams() {
-        Range heatRange = heatmaps.getCountRange();
+        Range heatRange = heatmaps.getHeatRange();
         ActivityBoundaries bounds = Settings.gpsBoundaries;
         Range westEastRange = new Range(bounds.west, bounds.east);
         Range southNorthRange = new Range(bounds.south, bounds.north);
@@ -115,6 +115,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
     public Iterator<ArrayList<Pixel>> iterator() {
         return new Iterator<>() {
             private int frameCount = 0;
+            private final Iterator<HashMap<Coordinate, Integer>> mapIterator = heatmaps.iterator();
 
             @Override
             public boolean hasNext() {
@@ -123,7 +124,8 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
 
             @Override
             public ArrayList<Pixel> next() {
-                return mapToPixels(heatmaps.getMap(frameCount++));
+                frameCount++;
+                return mapToPixels(mapIterator.next());
             }
         };
     }

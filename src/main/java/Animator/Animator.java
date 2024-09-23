@@ -18,7 +18,7 @@ class RedComparator implements Comparator<Pixel> {
 
 public class Animator {
 
-    private static int sleepTime = 10;
+    private static int sleepTime = 0;
     private static int frameCount = 0;
 
     public static void animate(HeatMapper heatmaps) throws InterruptedException {
@@ -41,7 +41,7 @@ public class Animator {
         pixels.sort(new RedComparator());
         for (Pixel pixel : pixels) {
             StdDraw.setPenColor(pixel.color());
-            StdDraw.filledCircle(pixel.coordinate().x(), pixel.coordinate().y(), 0.001);
+            StdDraw.point(pixel.coordinate().x(), pixel.coordinate().y());
         }
         StdDraw.setPenColor(Color.GREEN);
         StdDraw.text(1, 0, String.valueOf(frameCount));

@@ -7,56 +7,41 @@ import utilities.Range;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
- * Creates a list of cumulative heat maps from a list of Activities.
+ * Lazily generate a series of heat maps where each map is cumulative with the previous maps.
  */
-public class HeatMapper {
-
-    public HeatMapper() {}
+public class HeatMapper implements Iterable<HashMap<Coordinate, Integer>> {
 
     /**
-     * Generate heat maps at instantiation.
-     *
-     * @param activities A list of activities to generate heat maps from.
+     * @param activities The list of activities to generate heat maps with.
      */
-    public HeatMapper(ArrayList<Activity> activities) {map(activities);}
+    public HeatMapper(ArrayList<Activity> activities) {this.activities = activities;}
 
-    // The list of heatmaps
-    private final ArrayList<HashMap<Coordinate, Integer>> maps = new ArrayList<>();
+    private final ArrayList<Activity> activities;
 
-    /**
-     * @param index The index of the heat map to return.
-     * @return A specific heat map from the list.
-     */
-    public HashMap<Coordinate, Integer> getMap(int index) {return maps.get(index);}
+    // min and max coordinate counts from all coordinates in activities
+    private Range heatRange = null;
 
     /**
-     * @return The number of heat maps.
+     * @return The number of maps that can be generated.
      */
-    public int size() {return maps.size();}
+    public int size() {return activities.size();}
 
     /**
-     * Generate heat maps from a list of activities.
-     * <p>
-     * Note: If this `HeatMapper` has previous heat map data,
-     * the new heat maps will be cumulative with respect to that data.
-     *
-     * @param activities The list of activities to generate heat maps from.
+     * @return A flattened list of all coordinates in the activities list.
      */
-    public void map(ArrayList<Activity> activities) {
-        for (Activity activity : activities) {
-            HashMap<Coordinate, Integer> map = getCoordinateHeatmap(activity.coordinates());
-            if (!maps.isEmpty()) {
-                map = addMaps(maps.getLast(), map);
-            }
-            maps.add(map);
-        }
+    private ArrayList<Coordinate> getAllCoordinates() {
+        return new ArrayList<>(activities.subList(0, activities.size()).stream()
+                .flatMap(a -> a.coordinates().stream()).toList());
     }
 
     /**
-     * @param coordinates A list of `Coordinate` objects to generate a hasmap with.
-     * @return A hashmap conveying how many times a given coordinate appeared in `coordinates`.
+     * Generates a hash map of coordinates and their frequency.
+     *
+     * @param coordinates
+     * @return
      */
     private HashMap<Coordinate, Integer> getCoordinateHeatmap(ArrayList<Coordinate> coordinates) {
         HashMap<Coordinate, Integer> map = new HashMap<>();
@@ -68,40 +53,44 @@ public class HeatMapper {
     }
 
     /**
-     * Add the contents of two maps together.
+     * Determine the min and max coordinate counts for all activities combined.
      *
-     * @param map1 A map to add to the other.
-     * @param map2 A map to add to the other.
-     * @return The sum of `map1` and `map2`.
+     * @return The min and max coordinate counts as a `Range`.
      */
-    private HashMap<Coordinate, Integer> addMaps(HashMap<Coordinate, Integer> map1,
-            HashMap<Coordinate, Integer> map2) {
-        HashMap<Coordinate, Integer> comboMap = new HashMap<>(map1);
-        map2.forEach((k, v) -> comboMap.merge(k, v, Integer::sum));
-        return comboMap;
+    public Range getHeatRange() {
+        // Cache heatRange
+        if (heatRange == null) {
+            HashMap<Coordinate, Integer> map = getCoordinateHeatmap(getAllCoordinates());
+            int min = map.values().stream().min(Comparator.naturalOrder()).get();
+            int max = map.values().stream().max(Comparator.naturalOrder()).get();
+            heatRange = new Range(min, max);
+        }
+        return heatRange;
     }
 
-    /**
-     * @return The count of the most frequent coordinate in the last frame.
-     */
-    public Integer getMaxCount() {
-        return maps.getLast().values().stream().max(Comparator.naturalOrder()).get();
+    @Override
+    public Iterator<HashMap<Coordinate, Integer>> iterator() {
+        return new Iterator<>() {
+            int count = 0;
+            final HashMap<Coordinate, Integer> map = new HashMap<>();
+
+            private void addToMap(ArrayList<Coordinate> coordinates) {
+                for (Coordinate coordinate : coordinates) {
+                    Integer val = map.putIfAbsent(coordinate, 1);
+                    if (val != null) map.put(coordinate, ++val);
+                }
+            }
+
+            @Override
+            public boolean hasNext() {
+                return count < activities.size();
+            }
+
+            @Override
+            public HashMap<Coordinate, Integer> next() {
+                addToMap(activities.get(count++).coordinates());
+                return map;
+            }
+        };
     }
-
-    /**
-     * @return The count of the least frequent coordinate in the last frame.
-     */
-    public Integer getMinCount() {
-        return maps.getLast().values().stream().min(Comparator.naturalOrder()).get();
-    }
-
-    /**
-     * @return A `Range` containing the least frequenct and most frequent coordinate counts
-     * in the last frame.
-     */
-    public Range getCountRange() {
-        return new Range(getMinCount(), getMaxCount());
-    }
-
-
 }
