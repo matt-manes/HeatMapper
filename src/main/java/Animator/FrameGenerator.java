@@ -12,9 +12,10 @@ import utilities.Scale;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
-public class FrameGenerator {
+public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
 
     /**
      * @param heatmaps The `HeatMapper` object to use for generating frames.
@@ -28,13 +29,7 @@ public class FrameGenerator {
     private Scale xScaler, yScaler, redScaler;
 
     private final HeatMapper heatmaps;
-    private int frameCount = 0;
     private Curve colorCurve;
-
-    /**
-     * @return Whether there are more frames to generate or not
-     */
-    public boolean hasNext() {return frameCount < heatmaps.size();}
 
     /**
      * Initialize scalers and color curve from heatmaps.
@@ -49,7 +44,7 @@ public class FrameGenerator {
         yScaler = new Scale(southNorthRange, new Range(0, 1));
 
         redScaler = new Scale(heatRange, new Range(0, 255));
-        colorCurve = new Curve(0.999999, new Range(0, 255));
+        colorCurve = new Curve(0.9999999, new Range(0, 255));
     }
 
     /**
@@ -116,12 +111,20 @@ public class FrameGenerator {
         return pixels;
     }
 
-    /**
-     * @return The next list of `Pixel` objects.
-     */
-    public ArrayList<Pixel> next() {
+    @Override
+    public Iterator<ArrayList<Pixel>> iterator() {
+        return new Iterator<>() {
+            private int frameCount = 0;
 
-        if (hasNext()) return mapToPixels(heatmaps.getMap(frameCount++));
-        return null;
+            @Override
+            public boolean hasNext() {
+                return frameCount < heatmaps.size();
+            }
+
+            @Override
+            public ArrayList<Pixel> next() {
+                return mapToPixels(heatmaps.getMap(frameCount++));
+            }
+        };
     }
 }

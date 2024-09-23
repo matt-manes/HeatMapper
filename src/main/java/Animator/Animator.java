@@ -27,10 +27,10 @@ public class Animator {
         FrameGenerator frames = new FrameGenerator(heatmaps);
         StdDraw.show(sleepTime);
         StdDraw.setPenRadius(0.001);
-        while (frames.hasNext()) {
+        for (ArrayList<Pixel> frame : frames) {
             ++frameCount;
             StdDraw.clear(Color.BLACK);
-            drawFrame(frames.next());
+            drawFrame(frame);
             StdDraw.show(sleepTime);
         }
     }
