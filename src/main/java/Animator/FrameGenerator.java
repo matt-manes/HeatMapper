@@ -21,9 +21,7 @@ public class FrameGenerator {
         initParams();
     }
 
-    private Range heatRange, westEastRange, southNorthRange;
     private Scale xScaler, yScaler, redScaler;
-    private Dimension canvas;
     private HeatMapper heatmaps;
     private int i = 0;
     private Curve colorCurve;
@@ -31,11 +29,10 @@ public class FrameGenerator {
     public boolean hasNext() {return i < heatmaps.size();}
 
     private void initParams() {
-        heatRange = heatmaps.getCountRange();
+        Range heatRange = heatmaps.getCountRange();
         ActivityBoundaries bounds = Settings.gpsBoundaries;
-        westEastRange = new Range(bounds.west, bounds.east);
-        southNorthRange = new Range(bounds.south, bounds.north);
-        canvas = Settings.getCanvasSize();
+        Range westEastRange = new Range(bounds.west, bounds.east);
+        Range southNorthRange = new Range(bounds.south, bounds.north);
         xScaler = new Scale(westEastRange, new Range(0, 1));
         yScaler = new Scale(southNorthRange, new Range(0, 1));
         redScaler = new Scale(heatRange, new Range(0, 255));
@@ -47,7 +44,6 @@ public class FrameGenerator {
         red = (int) colorCurve.apply(red);
         // Least heat is blue, most is red
         return new Color(red, 0, Math.min(100, 255 - red));
-        //return new Color(red, 0, 255 - red);
     }
 
     private double getXPixel(double x) {return xScaler.fromAToB(x);}
