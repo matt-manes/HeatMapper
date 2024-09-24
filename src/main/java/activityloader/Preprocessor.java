@@ -31,7 +31,7 @@ public class Preprocessor {
             // Add the activity with the coordinates rounded
             processedActivities.add(
                     new Activity(activity.date(), validCoordinates).withRoundedCoordinates(
-                            precision));
+                            precision).withoutPauses());
         }
         return processedActivities;
     }
