@@ -3,7 +3,9 @@ package settings;
 import java.awt.*;
 
 public class Settings {
-    // GPS values will be rounded to this many decimal places.
+    /**
+     * GPS values will be rounded to this many decimal places.
+     */
     public static final int gpsPrecision = 4;
 
     public static final String[] fileTypes = {".fit", ".fit.gz", ".gpx"};
@@ -25,4 +27,9 @@ public class Settings {
         screen.width = (int) (screen.width * 0.99);
         return screen;
     }
+
+    /**
+     * How long to sleep between animation frames.
+     */
+    public static int animationFrameWait = 0;
 }
