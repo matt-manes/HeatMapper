@@ -44,7 +44,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
         yScaler = new Scale(southNorthRange, new Range(0, 1));
 
         redScaler = new Scale(heatRange, new Range(0, 255));
-        colorCurve = new Curve(0.9999999, new Range(0, 255));
+        colorCurve = new Curve(0.999, new Range(0, 255));
     }
 
     /**
