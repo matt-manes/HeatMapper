@@ -4,15 +4,13 @@ public class Curve {
 
     public Curve(double amount, Range range) {
         this.amount = amount;
-        valueRange = range;
-        scaler = new Scale(valueRange, curveRange);
+        scaler = new Scale(range, curveRange);
         calcCoeffs();
     }
 
-    private double amount;
-    private Range valueRange;
-    private Range curveRange = new Range(0, 1);
-    private Scale scaler;
+    private final double amount;
+    private final Range curveRange = new Range(0, 1);
+    private final Scale scaler;
     private double b, c;
 
     private void calcCoeffs() {
