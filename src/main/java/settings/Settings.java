@@ -16,7 +16,7 @@ public class Settings {
     //    public static final ActivityBoundaries gpsBoundaries =
     //            new ActivityBoundaries(42.408318, 41.707924, -87.524541, -88.340524);
     public static final ActivityBoundaries gpsBoundaries =
-            new ActivityBoundaries(42.153288, 41.791163, -87.570721, -87.835537);
+            new ActivityBoundaries(42.153288, 41.791163, -87.570721, -87.815);
 
 
     public static Dimension getCanvasSize() {
