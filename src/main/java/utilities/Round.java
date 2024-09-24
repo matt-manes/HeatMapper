@@ -4,9 +4,9 @@ public class Round {
     /**
      * Round `num` to the given number of places.
      *
-     * @param num
-     * @param places Exception thrown if this is less than 1
-     * @return
+     * @param num    The number to round.
+     * @param places Exception thrown if this is less than 1.
+     * @return The rounded number.
      */
     public static double round(double num, int places) {
         if (places < 0) throw new IllegalArgumentException("`places` must be positive.");

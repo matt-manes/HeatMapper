@@ -28,7 +28,7 @@ public class GPXReader {
      * Returns an xml Document object representing the file.
      *
      * @param path
-     * @return
+     * @return The xml document.
      */
     public static Document read(Path path) {
         if (path == null) throw new NullPointerException();
@@ -38,13 +38,8 @@ public class GPXReader {
 
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document document = builder.parse(path.toString());
-            return document;
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+            return builder.parse(path.toString());
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -52,8 +47,8 @@ public class GPXReader {
     /**
      * Returns the date the activity was recorded.
      *
-     * @param doc
-     * @return
+     * @param doc The document to extract the recording date from.
+     * @return The date this activity was recorded.
      */
     private static Date getDate(Document doc) {
         try {
@@ -67,8 +62,8 @@ public class GPXReader {
     /**
      * Returns the list of lattitude and longitude coordinates from the activity.
      *
-     * @param doc
-     * @return
+     * @param doc The docuement to extract the gps data from.
+     * @return The list of coordinates recorded during the activity.
      */
     private static ArrayList<Coordinate> getCoordinates(Document doc) {
         ArrayList<Coordinate> coordinates = new ArrayList<>();
@@ -87,7 +82,7 @@ public class GPXReader {
      * Reads a `.gpx` file and returns the corresponding `Activity` record.
      *
      * @param path A valid `.gpx` file
-     * @return
+     * @return An {@link Activity} record representing the recorded activity.
      */
     public static Activity parse(Path path) {
         Document doc = read(path);

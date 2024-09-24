@@ -9,19 +9,21 @@ import models.Coordinate;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Read FIT and gzipped FIT files.
+ */
 public class FITReader {
     /**
      * Decode the given FIT file and return the messages it contains.
      *
-     * @param path
-     * @return
+     * @param path The path to a `.fit` or a `.fit.gz` file.
+     * @return The fit messages contained in the file.
      */
     public static FitMessages read(Path path) {
         if (path == null) throw new NullPointerException();
@@ -38,8 +40,8 @@ public class FITReader {
     /**
      * Decompress the file then decode.
      *
-     * @param path
-     * @return
+     * @param path The path to a gzipped fit file.
+     * @return The fit messages contained in the file.
      */
     private static FitMessages readFromGZip(Path path) {
         FitDecoder decoder = new FitDecoder();
@@ -53,15 +55,13 @@ public class FITReader {
     /**
      * Decode from file.
      *
-     * @param path
-     * @return
+     * @param path The path to a FIT file.
+     * @return The fit messages contained in the file.
      */
     private static FitMessages readFromFile(Path path) {
         FitDecoder decoder = new FitDecoder();
         try (FileInputStream in = new FileInputStream(path.toFile())) {
             return decoder.decode(in);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -70,8 +70,8 @@ public class FITReader {
     /**
      * Returns the date the activity was recorded.
      *
-     * @param messages
-     * @return
+     * @param messages The fit messages for an activity.
+     * @return The recording date of the activity.
      */
     private static Date getDate(FitMessages messages) {
         return messages.getFileIdMesgs().getFirst().getTimeCreated().getDate();
@@ -80,8 +80,8 @@ public class FITReader {
     /**
      * Returns the list of lattitude and longitude coordinates from the activity.
      *
-     * @param messages
-     * @return
+     * @param messages The fit messages for an activity.
+     * @return A list of coordinates recorded during the activity.
      */
     private static ArrayList<Coordinate> getCoordinates(FitMessages messages) {
         List<RecordMesg> records = messages.getRecordMesgs();
@@ -92,17 +92,17 @@ public class FITReader {
                 x = SemicirclesConverter.semicirclesToDegrees(record.getPositionLong());
                 y = SemicirclesConverter.semicirclesToDegrees(record.getPositionLat());
                 coordinates.add(new Coordinate(x, y));
-            } catch (NullPointerException e) {
+            } catch (NullPointerException _) {
             }
         }
         return coordinates;
     }
 
     /**
-     * Reads a `.fit` of `.fit.gz` file and returns the corresponding `Activity` record.
+     * Reads a `.fit` of `.fit.gz` file and returns the corresponding {@link Activity} record.
      *
      * @param path A `.fit` or `.fit.gz` file
-     * @return
+     * @return An {@link Activity} record representing the activity recorded in the given file.
      */
     public static Activity parse(Path path) {
         FitMessages messages = read(path);

@@ -40,8 +40,8 @@ public class HeatMapper implements Iterable<HashMap<Coordinate, Integer>> {
     /**
      * Generates a hash map of coordinates and their frequency.
      *
-     * @param coordinates
-     * @return
+     * @param coordinates A list of coordinates to generate the map from.
+     * @return A mapping of coordinates and how many times they appeared.
      */
     private HashMap<Coordinate, Integer> getCoordinateHeatmap(ArrayList<Coordinate> coordinates) {
         HashMap<Coordinate, Integer> map = new HashMap<>();

@@ -16,7 +16,7 @@ public class Globber {
      * Recursively searches `dir` and returns a list of files matching extensions `.fit`, `.fit
      * .gz`, or `.gpx`.
      *
-     * @param dir
+     * @param dir The directory to search.
      * @return A {@link List} of matching {@link Path} objects.
      */
     public static List<Path> glob(Path dir) {

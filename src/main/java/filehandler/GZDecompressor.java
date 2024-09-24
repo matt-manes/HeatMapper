@@ -2,7 +2,6 @@ package filehandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.zip.GZIPInputStream;
@@ -15,7 +14,7 @@ public class GZDecompressor {
     /**
      * Decompress and read contents of file into a byte array.
      *
-     * @param path
+     * @param path The path to a `gzip` file.
      * @return A decompressed byte array
      */
     public static byte[] read(Path path) {
@@ -26,8 +25,6 @@ public class GZDecompressor {
             while ((length = in.read(buff)) > 0) {
                 out.write(buff, 0, length);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

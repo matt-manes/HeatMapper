@@ -91,23 +91,18 @@ public class ActivitySorter {
     }
 
     /**
-     * Returns `true` if the activity at `index1` is after that at `index2`.
-     *
      * @param index1 A node index.
      * @param index2 A node index.
-     * @return
+     * @return Whether activity at `index1` is after that at `index2`.
      */
     private boolean isAfter(int index1, int index2) {
-        // If the parent date is after the current date swap
         return heap.get(index1).date().after(heap.get(index2).date());
     }
 
     /**
-     * Returns `true` if the activity at `index1` is before that at `index2`.
-     *
      * @param index1 A node index.
      * @param index2 A node index.
-     * @return
+     * @return Whether activity at `index1` is before that at `index2`.
      */
     private boolean isBefore(int index1, int index2) {
         return !isAfter(index1, index2);
