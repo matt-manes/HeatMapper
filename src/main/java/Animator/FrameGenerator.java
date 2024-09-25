@@ -10,10 +10,17 @@ import utilities.Range;
 import utilities.Scale;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
+
+/**
+ * Compares the red channel of two `Pixel` objects.
+ */
+class RedComparator implements Comparator<Pixel> {
+    @Override
+    public int compare(Pixel a, Pixel b) {
+        return a.color().getRed() - b.color().getRed();
+    }
+}
 
 public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
 
@@ -30,6 +37,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
 
     private final HeatMapper heatmaps;
     private Curve colorCurve;
+    private final RedComparator redComparator = new RedComparator();
 
     /**
      * Initialize scalers and color curve from heatmaps.
@@ -97,6 +105,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
         return new Pixel(getPixelCoordinate(hotSpot.getKey()), getColor(hotSpot.getValue()));
     }
 
+
     /**
      * Convert a heatmap to a list of `Pixels` to drawn.
      *
@@ -108,6 +117,9 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
         for (Map.Entry<Coordinate, Integer> hotspot : map.entrySet()) {
             pixels.add(hotSpotToPixel(hotspot));
         }
+        // Sort so that blue points are drawn first and red are drawn last.
+        // This way red is more visible when there's overlap.
+        pixels.sort(redComparator);
         return pixels;
     }
 

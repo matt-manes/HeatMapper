@@ -7,20 +7,11 @@ import stdlib.StdDraw;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
-
-class RedComparator implements Comparator<Pixel> {
-    @Override
-    public int compare(Pixel a, Pixel b) {
-        return a.color().getRed() - b.color().getRed();
-    }
-}
 
 public class Animator {
 
     private static final int sleepTime = Settings.animationFrameWait;
     private static int frameCount = 0;
-    private static final RedComparator redComparator = new RedComparator();
 
     public static void animate(HeatMapper heatmaps) throws InterruptedException {
         setCanvasSize();
@@ -73,9 +64,6 @@ public class Animator {
      * @param pixels The pixels to draw.
      */
     private static void drawFrame(ArrayList<Pixel> pixels) {
-        // Sort so that blue points are drawn first and red are drawn last.
-        // This way red is more visible when there's overlap.
-        pixels.sort(redComparator);
         for (Pixel pixel : pixels) {
             StdDraw.setPenColor(pixel.color());
             StdDraw.point(pixel.coordinate().x(), pixel.coordinate().y());
