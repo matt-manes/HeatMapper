@@ -23,8 +23,8 @@ public class FileTypeTest {
         assert FileType.isGPX(path);
         assert !FileType.isFITOrFITGZ(path);
 
-        assert FileType.hasExt(path, new String[]{".fit", ".gpx"});
-        assert !FileType.hasExt(path, new String[]{".fit", ".txt", ".html"});
+        assert FileType.hasExts(path, new String[]{".fit", ".gpx"});
+        assert !FileType.hasExts(path, new String[]{".fit", ".txt", ".html"});
 
     }
 }

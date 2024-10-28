@@ -25,16 +25,6 @@ public class FileType {
         return path.toString().toLowerCase().endsWith(ext);
     }
 
-    /**
-     * Check if the given path contains the given extension.
-     *
-     * @param path The path to check.
-     * @param ext  The extension to check for.
-     * @return Whether `path` has the given extension.
-     */
-    public static boolean hasExt(String path, String ext) {
-        return path.toLowerCase().endsWith(ext);
-    }
 
     /**
      * Check if the given path contains any extension from the list.
@@ -44,20 +34,7 @@ public class FileType {
      * @param exts A list of extensions to check for.
      * @return `true` on the first matching extension.
      */
-    public static boolean hasExt(Path path, String[] exts) {
-        String p = path.toString();
-        return hasExt(p, exts);
-    }
-
-    /**
-     * Check if the given path contains any extension from the list.
-     * Returns on the first matching extension.
-     *
-     * @param path The path to check.
-     * @param exts A list of extensions to check for.
-     * @return `true` on the first matching extension.
-     */
-    public static boolean hasExt(String path, String[] exts) {
+    public static boolean hasExts(Path path, String[] exts) {
         for (String ext : exts) {
             if (hasExt(path, ext)) return true;
         }
@@ -72,13 +49,6 @@ public class FileType {
         return hasExt(path, ".fit");
     }
 
-    /**
-     * @param path The path to check.
-     * @return Whether `path` is a `.fit` file.
-     */
-    public static boolean isFIT(String path) {
-        return hasExt(path, ".fit");
-    }
 
     /**
      * @param path The path to check.
@@ -88,13 +58,6 @@ public class FileType {
         return hasExt(path, ".fit.gz");
     }
 
-    /**
-     * @param path The path to check.
-     * @return Whether `path` is a `.fit.gz` file.
-     */
-    public static boolean isFITGZ(String path) {
-        return hasExt(path, ".fit.gz");
-    }
 
     /**
      * @param path The path to check.
@@ -104,28 +67,12 @@ public class FileType {
         return hasExt(path, ".gpx");
     }
 
-    /**
-     * @param path The path to check.
-     * @return Whether `path` is a `.gpx` file.
-     */
-    public static boolean isGPX(String path) {
-        return hasExt(path, ".gpx");
-    }
 
     /**
      * @param path The path to check.
      * @return Whether `path` is a `.fit` or a `.fit.gz` file.
      */
     public static boolean isFITOrFITGZ(Path path) {
-        String p = path.toString();
-        return isFIT(p) || isFITGZ(p);
-    }
-
-    /**
-     * @param path The path to check.
-     * @return Whether `path` is a `.fit` or a `.fit.gz` file.
-     */
-    public static boolean isFITOrFITGZ(String path) {
         return isFIT(path) || isFITGZ(path);
     }
 }

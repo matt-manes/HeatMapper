@@ -23,13 +23,12 @@ public class ActivityLoader {
      * @return The loaded {@link Activity} record.
      */
     public static Activity load(Path path) {
-        String name = path.toString();
-        if (FileType.isFITOrFITGZ(name)) {
+        if (FileType.isFITOrFITGZ(path)) {
             return FITReader.parse(path);
-        } else if (FileType.isGPX(name)) {
+        } else if (FileType.isGPX(path)) {
             return GPXReader.parse(path);
         }
-        throw new IllegalArgumentException("No reader for " + name + " found.");
+        throw new IllegalArgumentException("No reader for " + path + " found.");
     }
 
     /**

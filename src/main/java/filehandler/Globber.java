@@ -21,7 +21,7 @@ public class Globber {
      */
     public static List<Path> glob(Path dir) {
         try (Stream<Path> entries = Files.walk(dir)) {
-            return entries.filter(path -> FileType.hasExt(path, Settings.fileTypes)).toList();
+            return entries.filter(path -> FileType.hasExts(path, Settings.fileTypes)).toList();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
