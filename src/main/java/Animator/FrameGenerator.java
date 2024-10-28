@@ -52,7 +52,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
         yScaler = new Scale(southNorthRange, new Range(0, 1));
 
         redScaler = new Scale(heatRange, new Range(0, 255));
-        colorCurve = new Curve(0.999, new Range(0, 255));
+        colorCurve = new Curve(0.995, new Range(0, 255));
     }
 
     /**
@@ -68,7 +68,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
         // Without curving, map would be mostly blue.
         red = (int) colorCurve.apply(red);
         // Least heat is blue, most is red
-        return new Color(red, 0, Math.min(100, 255 - red));
+        return new Color(red, 0, Math.max(0, 125 - red));
     }
 
     /**
@@ -114,6 +114,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
      */
     private ArrayList<Pixel> mapToPixels(HashMap<Coordinate, Integer> map) {
         ArrayList<Pixel> pixels = new ArrayList<>();
+        redScaler = new Scale(heatmaps.getHeatRange(map), new Range(0, 255));
         for (Map.Entry<Coordinate, Integer> hotspot : map.entrySet()) {
             pixels.add(hotSpotToPixel(hotspot));
         }

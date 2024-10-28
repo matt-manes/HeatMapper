@@ -53,6 +53,18 @@ public class HeatMapper implements Iterable<HashMap<Coordinate, Integer>> {
     }
 
     /**
+     * Get the minimum and maximum counts for a given map.
+     *
+     * @param map The map to get min and max from.
+     * @return A `Range` object containing the min and max counts.
+     */
+    public Range getHeatRange(HashMap<Coordinate, Integer> map) {
+        int min = map.values().stream().min(Comparator.naturalOrder()).get();
+        int max = map.values().stream().max(Comparator.naturalOrder()).get();
+        return new Range(min, max);
+    }
+
+    /**
      * Determine the min and max coordinate counts for all activities combined.
      *
      * @return The min and max coordinate counts as a `Range`.
