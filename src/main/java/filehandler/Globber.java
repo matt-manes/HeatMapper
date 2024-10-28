@@ -26,13 +26,4 @@ public class Globber {
             throw new RuntimeException(e);
         }
     }
-
-    /**
-     * Overload of {@link Globber#glob(Path)}
-     *
-     * @see Globber#glob(Path)
-     */
-    public static List<Path> glob(String dir) {
-        return glob(Path.of(dir));
-    }
 }
