@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Used for prepping activity data before sorting and frame generation.
  */
 public class Preprocessor {
-    
+
     static private final ActivityBoundaries bounds = Settings.gpsBoundaries;
 
     /**
@@ -24,15 +24,16 @@ public class Preprocessor {
      */
     public static ArrayList<Activity> process(ArrayList<Activity> activities) {
         ArrayList<Activity> processedActivities = new ArrayList<>();
+        int precision = Settings.gpsPrecision;
         for (Activity activity : activities) {
+            // No recorded coordinates, likely an indoor activity
+            if (activity.coordinates().isEmpty()) continue;
+        
+            activity = activity.withoutPauses().withRoundedCoordinates(precision);
             ArrayList<Coordinate> validCoordinates = filterCoordinates(activity.coordinates());
             // If no coordinates are valid, skip the whole activity
             if (validCoordinates.isEmpty()) continue;
-            // Add the activity with the coordinates rounded and pauses removed
-            int precision = Settings.gpsPrecision;
-            processedActivities.add(
-                    new Activity(activity.date(), validCoordinates).withRoundedCoordinates(
-                            precision).withoutPauses());
+            processedActivities.add(new Activity(activity.date(), validCoordinates));
         }
         return processedActivities;
     }
