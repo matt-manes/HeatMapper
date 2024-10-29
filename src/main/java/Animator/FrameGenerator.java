@@ -68,7 +68,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
         // Without curving, map would be mostly blue.
         red = (int) colorCurve.apply(red);
         // Least heat is blue, most is red
-        return new Color(red, 0, Math.max(0, 125 - red));
+        return new Color(red, 0, Math.max(0, 100 - red));
     }
 
     /**
