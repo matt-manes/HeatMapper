@@ -24,9 +24,9 @@ public class ActivityLoader {
      */
     public static Activity load(Path path) {
         if (FileType.isFITOrFITGZ(path)) {
-            return FITReader.parse(path);
+            return FITReader.parseToActivity(path);
         } else if (FileType.isGPX(path)) {
-            return GPXReader.parse(path);
+            return GPXReader.parseToActivity(path);
         }
         throw new IllegalArgumentException("No reader for " + path + " found.");
     }

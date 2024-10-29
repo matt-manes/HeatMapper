@@ -25,7 +25,6 @@ public class FileType {
         return path.toString().toLowerCase().endsWith(ext);
     }
 
-
     /**
      * Check if the given path contains any extension from the list.
      * Returns on the first matching extension.
@@ -49,7 +48,6 @@ public class FileType {
         return hasExt(path, ".fit");
     }
 
-
     /**
      * @param path The path to check.
      * @return Whether `path` is a `.fit.gz` file.
@@ -58,7 +56,6 @@ public class FileType {
         return hasExt(path, ".fit.gz");
     }
 
-
     /**
      * @param path The path to check.
      * @return Whether `path` is a `.gpx` file.
@@ -66,8 +63,7 @@ public class FileType {
     public static boolean isGPX(Path path) {
         return hasExt(path, ".gpx");
     }
-
-
+    
     /**
      * @param path The path to check.
      * @return Whether `path` is a `.fit` or a `.fit.gz` file.
