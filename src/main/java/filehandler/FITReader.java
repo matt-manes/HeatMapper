@@ -25,7 +25,7 @@ public class FITReader {
      * @param path The path to a `.fit` or a `.fit.gz` file.
      * @return The fit messages contained in the file.
      */
-    public static FitMessages read(Path path) {
+    public static FitMessages getFitMessages(Path path) {
         if (path == null) throw new NullPointerException();
         if (!(FileType.isFITOrFITGZ(path))) {
             throw new IllegalArgumentException("File ext must be `.fit` not " + path);
@@ -104,8 +104,8 @@ public class FITReader {
      * @param path A `.fit` or `.fit.gz` file
      * @return An {@link Activity} record representing the activity recorded in the given file.
      */
-    public static Activity parse(Path path) {
-        FitMessages messages = read(path);
+    public static Activity parseToActivity(Path path) {
+        FitMessages messages = getFitMessages(path);
         return new Activity(getDate(messages), getCoordinates((messages)));
     }
 }

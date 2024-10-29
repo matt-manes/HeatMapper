@@ -84,7 +84,7 @@ public class GPXReader {
      * @param path A valid `.gpx` file
      * @return An {@link Activity} record representing the recorded activity.
      */
-    public static Activity parse(Path path) {
+    public static Activity parseToActivity(Path path) {
         Document doc = read(path);
         return new Activity(getDate(doc), getCoordinates(doc));
     }
