@@ -28,8 +28,8 @@ public class Preprocessor {
         for (Activity activity : activities) {
             // No recorded coordinates, likely an indoor activity
             if (activity.coordinates().isEmpty()) continue;
-        
-            activity = activity.withoutPauses().withRoundedCoordinates(precision);
+
+            activity = activity.withRoundedCoordinates(precision).withoutPauses();
             ArrayList<Coordinate> validCoordinates = filterCoordinates(activity.coordinates());
             // If no coordinates are valid, skip the whole activity
             if (validCoordinates.isEmpty()) continue;
