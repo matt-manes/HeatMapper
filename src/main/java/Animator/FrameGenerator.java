@@ -112,7 +112,6 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
         return new Pixel(getPixelCoordinate(hotSpot.getKey()), getColor(hotSpot.getValue()));
     }
 
-
     /**
      * Convert a heatmap to a list of `Pixels` to drawn.
      *
