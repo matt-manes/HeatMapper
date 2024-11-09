@@ -5,8 +5,6 @@ package utilities;
  */
 public class Range {
 
-    public Range() {}
-
     public Range(double a, double b) {
         this.a = a;
         this.b = b;
@@ -18,9 +16,4 @@ public class Range {
      * @return The difference between b and a.
      */
     public double getDelta() {return b - a;}
-
-    /**
-     * @return The absolute value of the difference between b and a.
-     */
-    public double getAbsDelta() {return Math.abs(b - a);}
 }
