@@ -20,6 +20,12 @@ public record Activity(Date date, ArrayList<Coordinate> coordinates) {
         return new Activity(date, rounded);
     }
 
+    /**
+     * Remove "pauses" from this Activity's coordinates,
+     * i.e. remove any coordinate that is the same as the previous coordinate.
+     *
+     * @return A new `Activity` object without pauses in its coordinate list.
+     */
     public Activity withoutPauses() {
         ArrayList<Coordinate> unpaused = new ArrayList<>();
         unpaused.add(coordinates.getFirst());
