@@ -42,7 +42,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
     private final Range controlRange = new Range(0, 1);
     // `StdDraw` default expects a number between 0 and 1
     private final Range canvasRange = new Range(0, 1);
-    Color cold = new Color(0, 0, 100);
+    Color cold = new Color(0, 0, 125);
     Color hot = new Color(255, 0, 0);
 
     /**
