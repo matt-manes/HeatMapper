@@ -20,6 +20,9 @@ public class Settings {
     public static final ActivityBoundaries gpsBoundaries =
             new ActivityBoundaries(42.153288, 41.791163, -87.570721, -87.815);
 
+    // zoomed in around logan square
+    //    public static final ActivityBoundaries gpsBoundaries =
+    //            new ActivityBoundaries(42, 41.9, -87.625, -87.75);
 
     public static Dimension getCanvasSize() {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
