@@ -7,6 +7,7 @@ import models.Activity;
 import settings.ActivitiesDir;
 import stdlib.Stopwatch;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -31,10 +32,14 @@ public class Main {
 
     private static final Timer timer = new Timer();
 
-    private static ArrayList<Activity> load(Path data) {
+    private static ArrayList<Activity> load(Path dataDir) {
         timer.reset();
-        System.out.println("Loading data from '" + data + "'...");
-        ArrayList<Activity> activities = ActivityLoader.loadAll(data);
+        if (Files.notExists(dataDir)) {
+            System.out.println("The given path does not exist.");
+            return null;
+        }
+        System.out.println("Loading data from '" + dataDir + "'...");
+        ArrayList<Activity> activities = ActivityLoader.loadAll(dataDir);
         System.out.println("Data loaded successfully.");
         System.out.println("Loaded " + activities.size() + " activities.");
         timer.lap();
@@ -45,7 +50,7 @@ public class Main {
         timer.reset();
         System.out.println("Preprocessing data...");
         activities = Preprocessor.process(activities);
-        System.out.println("Data set now has " + activities.size() + " valid activities.");
+        System.out.println("There are " + activities.size() + " valid activities.");
         timer.lap();
         return activities;
     }
@@ -73,9 +78,20 @@ public class Main {
     public static void main(String[] args) {
         Timer mainTimer = new Timer();
         System.out.println();
-        Path defaultData = ActivitiesDir.dir;
-        Path data = args.length > 0 ? Path.of(args[0]) : defaultData;
-        animate(sort(doPreprocessing(load(data))));
+        Path dataDir = args.length > 0 ? Path.of(args[0]) : ActivitiesDir.dir;
+
+        ArrayList<Activity> activities = load(dataDir);
+        if (activities == null) {
+            mainTimer.lap();
+            return;
+        }
+        activities = doPreprocessing(activities);
+        if (activities.isEmpty()) {
+            System.out.println("There are no valid activities in the given directory.");
+            mainTimer.lap();
+            return;
+        }
+        animate(sort(activities));
         mainTimer.lap();
     }
 }
