@@ -4,6 +4,7 @@ import activityloader.ActivitySorter;
 import activityloader.Preprocessor;
 import heatmap.HeatMapper;
 import models.Activity;
+import settings.ActivitiesDir;
 import stdlib.Stopwatch;
 
 import java.nio.file.Path;
@@ -72,7 +73,7 @@ public class Main {
     public static void main(String[] args) {
         Timer mainTimer = new Timer();
         System.out.println();
-        Path defaultData = Path.of(System.getProperty("user.dir") + Path.of("/data/activities"));
+        Path defaultData = ActivitiesDir.dir;
         Path data = args.length > 0 ? Path.of(args[0]) : defaultData;
         animate(sort(doPreprocessing(load(data))));
         mainTimer.lap();
