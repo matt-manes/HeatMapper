@@ -34,48 +34,48 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
     }
 
     // Scales to map gps coordinates and counts to pixel coordinates and color
-    private Scale xScaler, yScaler, redScaler;
+    private Scale xScaler, yScaler, controlScaler;
 
     private final HeatMapper heatmaps;
     private Curve colorCurve;
     private final RedComparator redComparator = new RedComparator();
+    private final Range controlRange = new Range(0, 1);
+    // `StdDraw` default expects a number between 0 and 1
+    private final Range canvasRange = new Range(0, 1);
+    Color cold = new Color(0, 0, 100);
+    Color hot = new Color(255, 0, 0);
 
     /**
      * Initialize scalers and color curve from heatmaps.
      */
     private void initParams() {
-        Range heatRange = heatmaps.getHeatRange();
         ActivityBoundaries bounds = Settings.gpsBoundaries;
         Range westEastRange = new Range(bounds.west, bounds.east);
         Range southNorthRange = new Range(bounds.south, bounds.north);
-        // `StdDraw` default expects a number between 0 and 1
-        xScaler = new Scale(westEastRange, new Range(0, 1));
-        yScaler = new Scale(southNorthRange, new Range(0, 1));
+        xScaler = new Scale(westEastRange, canvasRange);
+        yScaler = new Scale(southNorthRange, canvasRange);
 
-        redScaler = new Scale(heatRange, new Range(0, 255));
-        //colorCurve = new Curve(0.995, new Range(0, 255));
-        colorCurve = new Curve(0.999, new Range(0, 1));
+        Range heatRange = heatmaps.getHeatRange();
+        controlScaler = new Scale(heatRange, controlRange);
+        colorCurve = new Curve(0.999, controlRange);
     }
 
     /**
      * Generate a color from a coordinate's count.
      *
-     * @param heat An int between 0 and 255, inclusive.
+     * @param heat The coordinate's count.
      * @return A `Color` between blue and red.
      */
     private Color getColor(int heat) {
-        //int red = (int) redScaler.fromAToB(heat);
-        double control = redScaler.fromAToB(heat);
-        // Curve is applied to push colors toward the red end
-        // b/c the way heat is determined leaves a pretty sparse middle ground.
+        double control = controlScaler.fromAToB(heat);
+        // Curve is applied to push color toward the red end
+        // b/c the way heat is determined tends to leave a pretty sparse middle ground.
         // Without curving, map would be mostly blue.
         control = colorCurve.apply(control);
-        Color base = new Color(0, 0, 100);
-        Color red = new Color(255, 0, 0);
-        return new Color((int) Blend.blend(base.getRed(), red.getRed(), control),
-                (int) Blend.blend(base.getGreen(), red.getGreen(), control),
-                (int) Blend.blend(base.getBlue(), red.getBlue(), control));
-        //return new Color(red, 0, Math.max(0, 100 - red));
+        int r = (int) Blend.blend(cold.getRed(), hot.getRed(), control);
+        int g = (int) Blend.blend(cold.getGreen(), hot.getGreen(), control);
+        int b = (int) Blend.blend(cold.getBlue(), hot.getBlue(), control);
+        return new Color(r, g, b);
     }
 
     /**
@@ -121,8 +121,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
      */
     private ArrayList<Pixel> mapToPixels(HashMap<Coordinate, Integer> map) {
         ArrayList<Pixel> pixels = new ArrayList<>();
-        //redScaler = new Scale(heatmaps.getHeatRange(map), new Range(0, 255));
-        redScaler = new Scale(heatmaps.getHeatRange(map), new Range(0, 1));
+        controlScaler.a = heatmaps.getHeatRange(map);
         for (Map.Entry<Coordinate, Integer> hotspot : map.entrySet()) {
             pixels.add(hotSpotToPixel(hotspot));
         }

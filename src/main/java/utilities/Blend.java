@@ -1,7 +1,9 @@
 package utilities;
 
 public class Blend {
-    public static double blend(double val1, double val2, double control) {
-        return val1 + (control * (val2 - val1));
+    public static double blend(double a, double b, double control) {
+        if (a == b || control == 0) return a;
+        if (control == 1) return b;
+        return a + (control * (b - a));
     }
 }
