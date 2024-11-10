@@ -42,7 +42,7 @@ public class Settings {
     public static Color background = new Color(0, 0, 0);
     public static double colorCompression = 0.999;
     public static double penRadius = 0.001;
-    public static Path dataPath = Path.of(System.getProperty("user.dir") + "data/activities");
+    public static Path dataPath = Path.of(System.getProperty("user.dir") + "/data/activities");
 
     /**
      * Returns a json object from a nested structure where each nested key is given by `keychain`.
