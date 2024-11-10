@@ -92,7 +92,7 @@ public class FITReader {
                 x = SemicirclesConverter.semicirclesToDegrees(record.getPositionLong());
                 y = SemicirclesConverter.semicirclesToDegrees(record.getPositionLat());
                 coordinates.add(new Coordinate(x, y));
-            } catch (NullPointerException _) {
+            } catch (NullPointerException ignored) {
             }
         }
         return coordinates;
