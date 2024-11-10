@@ -2,7 +2,7 @@ package activityloader;
 
 import models.Activity;
 import org.junit.jupiter.api.Test;
-import settings.ActivitiesDir;
+import settings.Settings;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ class ActivityLoaderTest {
 
     @Test
     void loadAll() {
-        ArrayList<Activity> activities = ActivityLoader.loadAll(ActivitiesDir.dir);
+        ArrayList<Activity> activities = ActivityLoader.loadAll(Settings.dataPath);
         assertFalse(activities.isEmpty());
         for (Activity activity : activities) {
             assertAll(() -> assertNotNull(activity.date()),

@@ -3,7 +3,6 @@ package activityloader;
 import models.Activity;
 import models.Coordinate;
 import org.junit.jupiter.api.Test;
-import settings.ActivitiesDir;
 import settings.ActivityBoundaries;
 import settings.Settings;
 
@@ -50,7 +49,7 @@ class PreprocessorTest {
 
     @Test
     void process() {
-        ArrayList<Activity> activities = ActivityLoader.loadAll(ActivitiesDir.dir);
+        ArrayList<Activity> activities = ActivityLoader.loadAll(Settings.dataPath);
         ArrayList<Activity> processedActivities = Preprocessor.process(activities);
         assertTrue(processedActivities.size() <= activities.size());
         for (Activity activity : processedActivities) {

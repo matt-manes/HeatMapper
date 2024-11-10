@@ -1,6 +1,7 @@
 package filehandler;
 
-import settings.ActivitiesDir;
+
+import settings.Settings;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -11,7 +12,7 @@ public class TestFile {
      * @return A gzip file from activities directory.
      */
     static Path getGZFile() {
-        List<Path> paths = Globber.glob(ActivitiesDir.dir);
+        List<Path> paths = Globber.glob(Settings.dataPath);
         // Find a compressed one
         for (Path path : paths) {
             if (FileType.isFITGZ(path)) {
@@ -25,7 +26,7 @@ public class TestFile {
      * @return A gpx file from activities directory.
      */
     static Path getGPXFile() {
-        List<Path> paths = Globber.glob(ActivitiesDir.dir);
+        List<Path> paths = Globber.glob(Settings.dataPath);
         // Find a compressed one
         for (Path path : paths) {
             if (FileType.isGPX(path)) {

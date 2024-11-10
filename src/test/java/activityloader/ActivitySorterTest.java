@@ -2,7 +2,7 @@ package activityloader;
 
 import models.Activity;
 import org.junit.jupiter.api.Test;
-import settings.ActivitiesDir;
+import settings.Settings;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +29,7 @@ class ActivitySorterTest {
     @Test
     void sortActivities() {
         ArrayList<Activity> activities =
-                new ActivitySorter().sort(ActivityLoader.loadAll(ActivitiesDir.dir));
+                new ActivitySorter().sort(ActivityLoader.loadAll(Settings.dataPath));
         for (int i = 0; i < activities.size() - 1; ++i) {
             assertTrue(activities.get(i).date().before(activities.get(i + 1).date()));
         }

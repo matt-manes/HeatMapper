@@ -1,6 +1,8 @@
 package filehandler;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Convenience methods for checking file type extensions since
@@ -33,11 +35,15 @@ public class FileType {
      * @param exts A list of extensions to check for.
      * @return `true` on the first matching extension.
      */
-    public static boolean hasExts(Path path, String[] exts) {
+    public static boolean hasExts(Path path, ArrayList<String> exts) {
         for (String ext : exts) {
             if (hasExt(path, ext)) return true;
         }
         return false;
+    }
+
+    public static boolean hasExts(Path path, String[] exts) {
+        return hasExts(path, new ArrayList<>(Arrays.asList(exts)));
     }
 
     /**
@@ -63,7 +69,7 @@ public class FileType {
     public static boolean isGPX(Path path) {
         return hasExt(path, ".gpx");
     }
-    
+
     /**
      * @param path The path to check.
      * @return Whether `path` is a `.fit` or a `.fit.gz` file.

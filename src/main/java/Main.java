@@ -4,7 +4,7 @@ import activityloader.ActivitySorter;
 import activityloader.Preprocessor;
 import heatmap.HeatMapper;
 import models.Activity;
-import settings.ActivitiesDir;
+import settings.Settings;
 import stdlib.Stopwatch;
 
 import java.nio.file.Files;
@@ -77,8 +77,9 @@ public class Main {
 
     public static void main(String[] args) {
         Timer mainTimer = new Timer();
+        Settings.load();
         System.out.println();
-        Path dataDir = args.length > 0 ? Path.of(args[0]) : ActivitiesDir.dir;
+        Path dataDir = args.length > 0 ? Path.of(args[0]) : Settings.dataPath;
 
         ArrayList<Activity> activities = load(dataDir);
         if (activities == null) {

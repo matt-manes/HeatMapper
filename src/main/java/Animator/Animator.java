@@ -12,12 +12,13 @@ public class Animator {
 
     private static final int sleepTime = Settings.animationFrameWait;
     private static int frameCount = 0;
+    private static Color background = Settings.background;
 
     public static void animate(HeatMapper heatmaps) throws InterruptedException {
         setCanvasSize();
         // Calling this to set `defer` to `true`, can't set it directly :/
         show();
-        StdDraw.setPenRadius(0.001);
+        StdDraw.setPenRadius(Settings.penRadius);
         // Draw all frames
         for (ArrayList<Pixel> frame : new FrameGenerator(heatmaps)) {
             ++frameCount;
@@ -56,7 +57,7 @@ public class Animator {
     /**
      * Clear the canvas.
      */
-    private static void clear() {StdDraw.clear(Color.BLACK);}
+    private static void clear() {StdDraw.clear(background);}
 
     /**
      * Draw a frame from a list of pixels.

@@ -42,8 +42,8 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
     private final Range controlRange = new Range(0, 1);
     // `StdDraw` default expects a number between 0 and 1
     private final Range canvasRange = new Range(0, 1);
-    Color cold = new Color(0, 0, 125);
-    Color hot = new Color(255, 0, 0);
+    Color cold = Settings.cold;
+    Color hot = Settings.hot;
 
     /**
      * Initialize scalers and color curve from heatmaps.
@@ -57,7 +57,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
 
         Range heatRange = heatmaps.getHeatRange();
         controlScaler = new Scale(heatRange, controlRange);
-        colorCurve = new Curve(0.999, controlRange);
+        colorCurve = new Curve(Settings.colorCompression, controlRange);
     }
 
     /**
