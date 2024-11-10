@@ -8,17 +8,19 @@ package utilities;
 public class Curve {
 
     /**
-     * @param amount A value b/t 0 and 1 exclusive, values of 0.49-0.51 will throw an error
-     *               (causes divide by 0).
+     * @param amount A value b/t 0 and 1 exclusive.
      * @param range  The expected range of input values.
      */
     public Curve(double amount, Range range) {
-        if ((0.49 <= amount && amount <= 0.51) || amount <= 0 || amount >= 1) {
+        if (amount <= 0 || amount >= 1) {
             throw new IllegalArgumentException("Invalid value for `amount`.");
         }
-
         this.amount = amount;
         scaler = new Scale(range, curveRange);
+        if (0.49 <= amount && amount <= 0.51) {
+            noCurve = true;
+            return;
+        }
         calcCoeffs();
     }
 
@@ -26,6 +28,7 @@ public class Curve {
     private final Range curveRange = new Range(0, 1);
     private final Scale scaler;
     private double b, c;
+    private boolean noCurve = false;
 
     private void calcCoeffs() {
         double min = curveRange.a;
@@ -41,6 +44,7 @@ public class Curve {
      * @return The tapered value.
      */
     public double apply(double val) {
+        if (noCurve) return val;
         val = scaler.fromAToB(val);
         val = b * (Math.exp(c * val) - 1);
         return scaler.fromBToA(val);
