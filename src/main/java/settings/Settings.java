@@ -23,7 +23,7 @@ public class Settings {
             new ArrayList<>(Arrays.asList(".fit", ".fit.gz", ".gpx"));
 
     public static ActivityBoundaries gpsBoundaries =
-            new ActivityBoundaries(42.153288, 41.791163, -87.570721, -87.815);
+            new ActivityBoundaries(42.153288, 41.791163, -87.570721, -87.8);
 
     private static double canvasHeight = 0.91;
     private static double canvasWidth = 0.99;
