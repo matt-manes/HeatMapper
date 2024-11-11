@@ -2,7 +2,7 @@
 
 ![sample](sample.png)
 
-A java app for making heat map animations from `.fit` and `.gpx` files.
+A java app for making heat map animations from `.fit`, `.fit.gz`, and `.gpx` files.
 
 ## Requirements
 
@@ -11,15 +11,17 @@ A java app for making heat map animations from `.fit` and `.gpx` files.
 ## Build Requirements
 
 - Java 21
-- Maven
+- Intellij Idea
 
-## Running HeatMapper
-
-Download:
+## Download
 
 ```console
 git clone https://github.com/matt-manes/HeatMapper
 ```
+
+## Running HeatMapper
+
+### User:
 
 Run with included sample data:
 
@@ -27,13 +29,17 @@ Run with included sample data:
 java -jar ./out/HeatMapper.jar
 ```
 
-To use your own data (downloaded from strava or a device), provide the directory as a command line argument:
+To use your own data (downloaded from strava or a device), provide the directory as a command line
+argument:
 
 ```console
 java -jar ./out/HeatMapper.jar some/path/containing/files
 ```
 
-The first time HeatMapper is run, a `settings.json` file will be generated and populated with default values:
+A different data directory can also be specified in `settings.json`.
+
+The first time HeatMapper is run, a `settings.json` file will be generated and populated with
+default values:
 
 ```json
 {
@@ -77,6 +83,18 @@ The first time HeatMapper is run, a `settings.json` file will be generated and p
 }
 ```
 
-## Processing flow
+### Developer:
+
+HeatMapper can be opened as an Intellij Idea project with the source code located in `src/main/java`
+and a junit test suite in `src/test/java`.
+
+To build the project, click `build` on the top menu bar and select `build project`.
+
+The application can be run from source by selecting the `Main` configuration in the
+`run/debug configurations` drop down menu and clicking the run button.
+
+The test suite can be run the same way, but by using the `alltests` configuration.
+
+#### Processing flow
 
 ![diagram](diagram.png)
