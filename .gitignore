@@ -39,6 +39,8 @@ build/
 decompressTest.fit
 *.csv
 *.png
+!sample.png
+!diagram.png
 *.jfr
 .profileconfig.json
 *.json
