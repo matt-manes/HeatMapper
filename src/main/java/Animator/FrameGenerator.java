@@ -14,12 +14,22 @@ import java.awt.*;
 import java.util.*;
 
 /**
- * Compares the red channel of two `Pixel` objects.
+ * Compares two `Pixel` objects as being closer or farther away from the `Settings.hot` color.
  */
-class RedComparator implements Comparator<Pixel> {
+class ColorComparator implements Comparator<Pixel> {
+    private final int redDiff = Math.abs(Settings.hot.getRed() - Settings.cold.getRed());
+    private final int greenDiff = Math.abs(Settings.hot.getGreen() - Settings.cold.getGreen());
+    private final int blueDiff = Math.abs(Settings.hot.getBlue() - Settings.cold.getBlue());
+
     @Override
     public int compare(Pixel a, Pixel b) {
-        return a.color().getRed() - b.color().getRed();
+        // Hacky way of picking which channel qualifies
+        // a color as closer to cold or closer to hot
+        if (redDiff > greenDiff && redDiff > blueDiff) {
+            return a.color().getRed() - b.color().getRed();
+        } else if (greenDiff > redDiff && greenDiff > blueDiff) {
+            return a.color().getGreen() - b.color().getGreen();
+        } else {return a.color().getBlue() - b.color().getBlue();}
     }
 }
 
@@ -38,7 +48,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
 
     private final HeatMapper heatmaps;
     private Curve colorCurve;
-    private final RedComparator redComparator = new RedComparator();
+    private final ColorComparator colorComparator = new ColorComparator();
     private final Range controlRange = new Range(0, 1);
     // `StdDraw` default expects a number between 0 and 1
     private final Range canvasRange = new Range(0, 1);
@@ -126,7 +136,7 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
         }
         // Sort so that blue points are drawn first and red are drawn last.
         // This way red is more visible when there's overlap.
-        pixels.sort(redComparator);
+        pixels.sort(colorComparator);
         return pixels;
     }
 
