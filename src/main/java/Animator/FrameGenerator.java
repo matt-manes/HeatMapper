@@ -29,7 +29,9 @@ class ColorComparator implements Comparator<Pixel> {
             return a.color().getRed() - b.color().getRed();
         } else if (greenDiff > redDiff && greenDiff > blueDiff) {
             return a.color().getGreen() - b.color().getGreen();
-        } else {return a.color().getBlue() - b.color().getBlue();}
+        } else {
+            return a.color().getBlue() - b.color().getBlue();
+        }
     }
 }
 
@@ -94,7 +96,9 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
      * @param x The gps coordinate to convert.
      * @return A pixel location.
      */
-    private double getXPixel(double x) {return xScaler.fromAToB(x);}
+    private double getXPixel(double x) {
+        return xScaler.fromAToB(x);
+    }
 
     /**
      * Convert a gps y coordinate to a pixel coordinate.
@@ -102,7 +106,9 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
      * @param y The gps coordinate to convert.
      * @return A pixel location.
      */
-    private double getYPixel(double y) {return yScaler.fromAToB(y);}
+    private double getYPixel(double y) {
+        return yScaler.fromAToB(y);
+    }
 
     /**
      * @param coordinate The coordinate to determine pixel coordinates for.
@@ -134,8 +140,8 @@ public class FrameGenerator implements Iterable<ArrayList<Pixel>> {
         for (Map.Entry<Coordinate, Integer> hotspot : map.entrySet()) {
             pixels.add(hotSpotToPixel(hotspot));
         }
-        // Sort so that blue points are drawn first and red are drawn last.
-        // This way red is more visible when there's overlap.
+        // Sort so that cold color points are drawn first and hot color points are drawn last.
+        // This way hotter colors are more visible when there's overlap.
         pixels.sort(colorComparator);
         return pixels;
     }
